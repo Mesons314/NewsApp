@@ -1,5 +1,7 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:newsapp/model/category.dart';
+
+import '../model/static_cat_model.dart';
 
 List<CategoryModel> getCatogeries(){
 

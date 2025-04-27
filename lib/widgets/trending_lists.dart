@@ -1,16 +1,17 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/Screens/articles_screen.dart';
 
 class BlogTile extends StatelessWidget{
-  final String urlToImage, title;
-  BlogTile({required this.title,required this.urlToImage});
+  final String urlToImage, title,url;
+  BlogTile({required this.title,required this.urlToImage,required this.url});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleView(blogUrl: url)));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -33,7 +34,10 @@ class BlogTile extends StatelessWidget{
                           imageUrl: urlToImage,
                           height: 150,
                           width: 150,
-                          fit: BoxFit.cover,),
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
                       ),
                     ),
                   ),
@@ -49,7 +53,7 @@ class BlogTile extends StatelessWidget{
                       Container(
                         width: MediaQuery.of(context).size.width/1.9,
                         padding: EdgeInsets.only(left: 6),
-                        child: Text('NOthing',
+                        child: Text('',
                           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),),
                       ),
                     ],

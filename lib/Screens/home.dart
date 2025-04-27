@@ -2,13 +2,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:newsapp/Screens/articles_screen.dart';
 import 'package:newsapp/model/SliderModel.dart';
 import 'package:newsapp/model/article_model.dart';
-import 'package:newsapp/services/data.dart';
 import 'package:newsapp/services/slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../model/category.dart';
+import '../model/static_cat_model.dart';
+import '../services/cat_data.dart';
 import '../services/news.dart';
 import '../widgets/category.dart';
 import '../widgets/trending_lists.dart';
@@ -30,11 +30,12 @@ class _Home extends State<Home>{
   List<SliderModel> slider = [];
   List<ArticleModel> articles = [];
   bool _loading = true;
+  bool _loading1 = true;
 
   @override
   void initState(){
     categories = getCatogeries();
-    slider = getSlider();
+    getSlider();
     getNews();
     super.initState();
 
@@ -50,6 +51,15 @@ int activeIndex = 0;
     print('Articles loaded: ${articles.length}');
     setState(() {
       _loading = false;
+    });
+  }
+
+  getSlider() async{
+    Sliders sliders = Sliders();
+    await sliders.getSliders();
+    slider = sliders.sliders;
+    setState(() {
+      _loading1 = false;
     });
   }
 
@@ -113,9 +123,10 @@ int activeIndex = 0;
               ],
             ),
           ),
+          _loading1? Center(child: CircularProgressIndicator(),):
           CarouselSlider.builder(itemCount: slider.length, itemBuilder: (context, index, realIndex){
-            String? res = slider[index].image;
-            String? res2 = slider[index].name;
+            String? res = slider[index].urlToImage;
+            String? res2 = slider[index].title;
             return buildImage(res!, index, res2!);
           }, options: CarouselOptions(
             height: 300,
@@ -161,7 +172,8 @@ int activeIndex = 0;
                 itemCount: articles.length,
                 itemBuilder: (context,index){
               return BlogTile(title: articles[index].title!,
-                  urlToImage: articles[index].urlToImage!);
+                  urlToImage: articles[index].urlToImage!,
+              url: articles[index].url!,);
             }),
           )
         ],
@@ -169,36 +181,44 @@ int activeIndex = 0;
       )
     );
   }
-  Widget buildImage(String image, int index, String name)=>Container(
-    margin: const EdgeInsets.symmetric(horizontal: 5),
-    child: Stack(
-      children: [ 
-        ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.asset(
-          image,
-          height: 250,
-          fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width,
-        ),
-      ),
-        Container(
-          height: 80,
-          margin: const EdgeInsets.only(top: 170),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Colors.black26,
-          borderRadius: BorderRadius.circular(12)),
-          child: Center(
-            child: Text(name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-            ),
+  Widget buildImage(String image, int index, String name)=>InkWell(
+    onTap: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleView(blogUrl: slider[index].url!)));
+    },
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Stack(
+        children: [
+          ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: CachedNetworkImage(
+
+            height: 250,
+            fit: BoxFit.cover,
+            width: MediaQuery.of(context).size.width, imageUrl: image,
           ),
-        )
-      ]
+        ),
+          Container(
+            height: 80,
+            margin: const EdgeInsets.only(top: 170),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(color: Colors.black26,
+            borderRadius: BorderRadius.circular(12)),
+            child: Center(
+              child: Text(
+                name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+              ),
+            ),
+          )
+        ]
+      ),
     ),
   );
 

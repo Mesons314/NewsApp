@@ -1,38 +1,34 @@
-import 'package:flutter/foundation.dart';
-import 'package:newsapp/model/category.dart';
+import 'dart:convert';
 
-import '../model/SliderModel.dart';
+import 'package:newsapp/model/SliderModel.dart';
+import 'package:http/http.dart' as http;
+class Sliders{
+  List<SliderModel> sliders = [];
+  Future<void> getSliders()async {
+    String? url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=e34650a65a9241d7922e8e08ef1b18ea";
+    var response = await http.get(Uri.parse(url));
 
-List<SliderModel> getSlider(){
+    var jsonData = jsonDecode(response.body);
+    print('API response status: ${jsonData['status']}');
+    print('Total articles fetched: ${jsonData['articles']?.length}');
+    print('Error: ${jsonData['message']}');
 
-  List<SliderModel> slider=[];
-  SliderModel sliderModel = new SliderModel();
+    if(jsonData['status'] == 'ok'){
+      jsonData['articles'].forEach((element) async {
+        if(element['urlToImage'] != null && await isImageAccessible(element['urlToImage'])){
+          SliderModel sliderModel = SliderModel.fromJson(element);
+          sliders.add(sliderModel);
+        }
+      });
+    }
+  }
 
-  sliderModel.name='Business';
-  sliderModel.image="assets/images/business.jpg";
-  slider.add(sliderModel);
-  sliderModel = new SliderModel();
-
-  sliderModel.name='General';
-  sliderModel.image="assets/images/general.jpg";
-  slider.add(sliderModel);
-  sliderModel = new SliderModel();
-
-  sliderModel.name='Sports';
-  sliderModel.image="assets/images/sport.jpg";
-  slider.add(sliderModel);
-  sliderModel = new SliderModel();
-
-  sliderModel.name='Health';
-  sliderModel.image="assets/images/general.jpg";
-  slider.add(sliderModel);
-  sliderModel = new SliderModel();
-
-  sliderModel.name='General';
-  sliderModel.image="assets/images/general.jpg";
-  slider.add(sliderModel);
-  sliderModel = new SliderModel();
-
-
-  return slider;
+  Future<bool> isImageAccessible(String imageUrl) async{
+    try{
+      var response = await http.head(Uri.parse(imageUrl));
+      return response.statusCode == 200;
+    }catch(e){
+      return false;
+    }
+  }
 }
