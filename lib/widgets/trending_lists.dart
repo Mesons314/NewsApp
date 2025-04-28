@@ -35,8 +35,6 @@ class BlogTile extends StatelessWidget{
                           height: 150,
                           width: 150,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
                         ),
                       ),
                     ),

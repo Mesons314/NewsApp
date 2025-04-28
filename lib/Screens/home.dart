@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/Screens/articles_screen.dart';
+import 'package:newsapp/Screens/breaking_news.dart';
 import 'package:newsapp/model/SliderModel.dart';
 import 'package:newsapp/model/article_model.dart';
 import 'package:newsapp/services/slider.dart';
@@ -103,12 +104,12 @@ int activeIndex = 0;
 
             height: 20,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 15,right: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Breaking News',
+                const Text('Breaking News',
 
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -116,10 +117,15 @@ int activeIndex = 0;
                     color: Colors.black,
                 ),
                 ),
-                Text('View All',style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: Colors.black),)
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BreakingNews()));
+                  },
+                  child: const Text('View All',style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14,
+                      color: Colors.black),),
+                )
               ],
             ),
           ),
@@ -192,7 +198,6 @@ int activeIndex = 0;
           ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: CachedNetworkImage(
-
             height: 250,
             fit: BoxFit.cover,
             width: MediaQuery.of(context).size.width, imageUrl: image,
@@ -209,7 +214,6 @@ int activeIndex = 0;
                 name,
               textAlign: TextAlign.center,
               style: const TextStyle(
-
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.bold,

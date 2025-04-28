@@ -12,25 +12,31 @@ class Categories {
     print("Response data: $jsonData");
 
     if (jsonData['status'] == 'ok') {
+      List<Future<void>> futures = [];
       for (var element in jsonData['articles']) {
-        if (element['urlToImage'] != null &&
-            element['title'] != null &&
-            element['url'] != null &&
-            await isImageAccessible(element['urlToImage'])) {
-          CategoryModel1 categoryModel = CategoryModel1.fromJson(element);
-          category.add(categoryModel);
+        if (element['urlToImage'] != null) {
+          futures.add(_processArticle(element));
         }
       }
+      await Future.wait(futures);
     } else {
       print('Error: ${jsonData['message']}');
     }
   }
-}
-Future<bool> isImageAccessible(String imageUrl) async {
-  try {
-    var res = await http.head(Uri.parse(imageUrl));
-    return res.statusCode == 200;
-  } catch (e) {
-    return false;
+  Future<void> _processArticle(Map<String,dynamic> element) async{
+      CategoryModel1 categoryModel1 = CategoryModel1.fromJson(element);
+      category.add(categoryModel1);
+
   }
 }
+
+
+//
+// Future<bool> isImageAccessible(String imageUrl) async {
+//   try {
+//     var res = await http.head(Uri.parse(imageUrl));
+//     return res.statusCode == 200;
+//   } catch (e) {
+//     return false;
+//   }
+// }

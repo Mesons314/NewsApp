@@ -14,12 +14,12 @@ class Sliders{
     print('Error: ${jsonData['message']}');
 
     if(jsonData['status'] == 'ok'){
-      jsonData['articles'].forEach((element) async {
+      for (var element in jsonData['articles']) {
         if(element['urlToImage'] != null && await isImageAccessible(element['urlToImage'])){
           SliderModel sliderModel = SliderModel.fromJson(element);
           sliders.add(sliderModel);
         }
-      });
+      };
     }
   }
 
