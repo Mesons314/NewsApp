@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/Screens/articles_screen.dart';
 import 'package:newsapp/Screens/breaking_news.dart';
+import 'package:newsapp/Screens/trending_news.dart';
 import 'package:newsapp/model/SliderModel.dart';
 import 'package:newsapp/model/article_model.dart';
 import 'package:newsapp/services/slider.dart';
@@ -67,16 +68,9 @@ int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('News App',
-              style: TextStyle(
-                  color: Colors.lightBlue,
-              fontWeight: FontWeight.bold),)
-        ],
+      appBar: AppBar(title: Text('News App',
+      style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.blue),
       ),
-        centerTitle: true,
       ),
       body: _loading? Center(child: CircularProgressIndicator()): SingleChildScrollView(
        child: Column(
@@ -122,9 +116,11 @@ int activeIndex = 0;
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BreakingNews()));
                   },
                   child: const Text('View All',style: TextStyle(
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                       fontSize: 14,
-                      color: Colors.black),),
+                      color: Colors.lightBlue,
+                    decoration: TextDecoration.underline,
+                      decorationColor: Colors.lightBlue),),
                 )
               ],
             ),
@@ -150,20 +146,27 @@ int activeIndex = 0;
           const SizedBox(
             height: 15,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 15,right: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Trending News',
+                const Text('Trending News',
                   style: TextStyle( fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.black, ),
                 ),
-                Text('View All',style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: Colors.black),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> TrendingNews()));
+                  },
+                  child: const Text('View All',style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: Colors.lightBlue,
+                    decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue),
+                  ),
                 )
               ],
             ),
