@@ -40,7 +40,7 @@ class breakingNews extends State<BreakingNews> {
       ),
       body: _loading
           ? Center(
-          child: CircularProgressIndicator()) // Show loading indicator while fetching data
+          child: CircularProgressIndicator())
           : Container(
             child: ListView.builder(
                     itemCount: slider.length, // Properly pass itemCount

@@ -69,8 +69,9 @@ int activeIndex = 0;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('News App',
-      style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.blue),
+      style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.blue,),
       ),
+        automaticallyImplyLeading: false,
       ),
       body: _loading? Center(child: CircularProgressIndicator()): SingleChildScrollView(
        child: Column(

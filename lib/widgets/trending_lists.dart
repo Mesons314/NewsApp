@@ -9,6 +9,9 @@ class BlogTile extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    double screenWidth = size.width;
+    double screenHeight = size.height;
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> ArticleView(blogUrl: url)));
@@ -21,40 +24,30 @@ class BlogTile extends StatelessWidget{
             borderRadius: BorderRadius.circular(12),
             elevation: 3,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 12),
+                      padding: const EdgeInsets.only(left: 6),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: CachedNetworkImage(
                           imageUrl: urlToImage,
-                          height: 150,
-                          width: 150,
+                          height: 155,
+                          width: screenWidth * 0.35,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 6),
-                        width: MediaQuery.of(context).size.width/1.9,
-                        child: Text(
-                          title,
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width/1.9,
-                        padding: EdgeInsets.only(left: 6),
-                        child: Text('',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),),
-                      ),
-                    ],
+                  Container(
+                    padding: EdgeInsets.only(left: 6),
+                    width: screenWidth * 0.55,
+                    child: Text(
+                      title,
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                   ),
                 ],
               ),
@@ -64,5 +57,4 @@ class BlogTile extends StatelessWidget{
       ),
     );
   }
-
 }
