@@ -6,7 +6,7 @@ class Categories {
   List<CategoryModel1> category = [];
 
   Future<void> getCategories1(String categoryName) async {
-    String url = 'https://newsapi.org/v2/top-headlines?country=us&category=$categoryName&apiKey=e34650a65a9241d7922e8e08ef1b18ea';
+    String url = 'https://newsapi.org/v2/top-headlines?country=us&category=$categoryName&apiKey=';
     var response = await http.get(Uri.parse(url));
     var jsonData = jsonDecode(response.body);
     print("Response data: $jsonData");
