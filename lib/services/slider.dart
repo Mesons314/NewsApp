@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class Sliders{
   List<SliderModel> sliders = [];
   Future<void> getSliders()async {
-    String? url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=e34650a65a9241d7922e8e08ef1b18ea";
+    String? url = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=";
     var response = await http.get(Uri.parse(url));
 
     var jsonData = jsonDecode(response.body);
