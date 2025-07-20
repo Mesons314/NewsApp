@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class News{
   List<ArticleModel> news = [];
   Future<void> getNews()async {
-    String? url = "https://newsapi.org/v2/everything?q=tesla&from=2025-04-20&sortBy=publishedAt&apiKey=e34650a65a9241d7922e8e08ef1b18ea";
+    String? url = "https://newsapi.org/v2/everything?q=tesla&from=2025-04-20&sortBy=publishedAt&apiKey=";
     var response = await http.get(Uri.parse(url));
 
     var jsonData = jsonDecode(response.body);
